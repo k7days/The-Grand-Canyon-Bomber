@@ -41,6 +41,7 @@ void Game::draw()
 void Game::init()
 {
 	graphics::setFont(std::string(ASSET_PATH) + "joystix.ttf");
+
 }
 
 Game::Game()

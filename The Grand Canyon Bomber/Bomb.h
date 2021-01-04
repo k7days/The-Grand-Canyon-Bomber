@@ -5,10 +5,12 @@
 
 
 
+
+
 class Bomb : public GameObject {
-	float pos_xbomb = get_pos_x();
-	float pos_ybomb = get_pos_y();
-	float speed = get_speed();
+	float pos_xbomb;
+	float pos_ybomb;
+	float speed;
 public:
 	void update() override;
 	void draw() override;
