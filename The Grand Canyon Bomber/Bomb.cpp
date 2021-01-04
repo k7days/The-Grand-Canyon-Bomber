@@ -8,18 +8,18 @@
 void Bomb::update()
 {
 	
-	//if (pos_xbomb <= CANVAS_WIDTH && go_back == false) 
-	//{
+	if (pos_xbomb <= CANVAS_WIDTH && go_back == false) 
+	{
 		pos_ybomb += speed * graphics::getDeltaTime() / 10.0f;
 		pos_xbomb += 0.5f * graphics::getDeltaTime() / 10.0f;
-	/*}
+	}
 	else 
 	{
 		go_back = true;
 		pos_ybomb += speed * graphics::getDeltaTime() / 10.0f;
 		pos_xbomb -= 0.5f * graphics::getDeltaTime() / 10.0f;
 		if (pos_xbomb < 0) { go_back = false; }
-	}*/
+	}
 
 
 }
