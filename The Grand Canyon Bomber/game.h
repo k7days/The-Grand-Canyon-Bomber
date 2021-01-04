@@ -8,6 +8,7 @@ class Game {
 	Player* player = nullptr;
 	bool player_initialized = false;
 	Bomb* bomb = nullptr;
+	bool bomb_initialized = false;
 public:
 	void update();
 	void draw();

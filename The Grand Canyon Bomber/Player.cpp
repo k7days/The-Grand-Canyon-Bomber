@@ -43,6 +43,3 @@ float Player::get_pos_y() {
 	return pos_y;
 }
 
-float Player::get_speed() {
-	return speed;
-}

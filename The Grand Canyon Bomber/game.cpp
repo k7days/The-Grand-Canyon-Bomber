@@ -11,11 +11,20 @@ void Game::update()
 		player_initialized = true;
 	}
 	if (player) {
+		
 		player->update();
 	}
 
 	//Creating bomb
-	bomb = new Bomb;
+	if (!bomb_initialized) {
+		bomb = new Bomb;
+		bomb->setPosition(player->get_pos_x(), player->get_pos_y());
+		bomb_initialized = true;
+	}
+	if (bomb) {
+		bomb->update();	
+	}
+	
 }
 
 void Game::draw()
@@ -30,9 +39,10 @@ void Game::draw()
 	}
 	//draw bomb
 	if (bomb) {
-		bomb->setPosition(player->get_pos_x(), player->get_pos_y());
 		bomb->draw();
+		
 	}
+
 	//draw text
 	graphics::Brush br2;
 	graphics::drawText(30, 50, 15, "Lives : 3", br2);
