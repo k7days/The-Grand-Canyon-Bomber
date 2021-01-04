@@ -13,7 +13,8 @@ void Bomb::draw()
 {
 	graphics::Brush br;
 	br.texture = std::string(ASSET_PATH) + "bomb.png";
-	graphics::drawRect(pos_xbomb, pos_ybomb, CANVAS_WIDTH / 6, CANVAS_HEIGHT / 8, br);
+	br.outline_opacity = 0.0f;
+	graphics::drawRect(pos_xbomb, pos_ybomb, 20, 20, br);
 }
 
 void Bomb::init()
@@ -21,4 +22,7 @@ void Bomb::init()
 	
 }
 
-
+void Bomb::setPosition(float posx, float posy) {
+	pos_xbomb = posx;
+	pos_ybomb = posy;
+}

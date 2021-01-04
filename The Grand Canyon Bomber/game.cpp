@@ -30,6 +30,7 @@ void Game::draw()
 	}
 	//draw bomb
 	if (bomb) {
+		bomb->setPosition(player->get_pos_x(), player->get_pos_y());
 		bomb->draw();
 	}
 	//draw text
