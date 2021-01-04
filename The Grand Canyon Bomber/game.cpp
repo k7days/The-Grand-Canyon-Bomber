@@ -4,6 +4,7 @@
 
 void Game::update()
 {
+	//Creating one player 
 	if (!player_initialized) {
 		player = new Player;
 		player_initialized = true;
