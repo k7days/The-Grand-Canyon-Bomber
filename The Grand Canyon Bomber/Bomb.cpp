@@ -7,11 +7,6 @@
 
 void Bomb::update()
 {
-	fall = false;
-	if (graphics::getKeyState(graphics::SCANCODE_SPACE)) {
-		fall = true;
-	}
-	if (fall==true) {
 		if (pos_xbomb <= CANVAS_WIDTH && go_back == false) {
 			pos_ybomb += speed * graphics::getDeltaTime() / 10.0f;
 			pos_xbomb += 0.5f * graphics::getDeltaTime() / 10.0f;
@@ -23,16 +18,15 @@ void Bomb::update()
 			if (pos_xbomb < 0) { go_back = false; }
 		}
 	}
-}
+
 
 void Bomb::draw()
 {
-	if (fall == true) {
 		graphics::Brush br;
 		br.texture = std::string(ASSET_PATH) + "bomb.png";
 		br.outline_opacity = 0.0f;
 		graphics::drawRect(pos_xbomb, pos_ybomb, 20, 20, br);
-	}
+	
 }
 
 void Bomb::init()
