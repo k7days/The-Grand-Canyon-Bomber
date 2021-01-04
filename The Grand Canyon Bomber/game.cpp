@@ -18,11 +18,14 @@ void Game::update()
 	//Creating bomb
 	if (!bomb_initialized) {
 		bomb = new Bomb;
-		bomb->setPosition(player->get_pos_x(), player->get_pos_y());
 		bomb_initialized = true;
+		
 	}
 	if (bomb) {
-		bomb->update();	
+		if (graphics::getKeyState(graphics::SCANCODE_SPACE)) {
+			bomb->setPosition(player->get_pos_x(), player->get_pos_y());
+		}
+		bomb->update();
 	}
 	
 }
