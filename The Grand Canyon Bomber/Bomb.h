@@ -13,7 +13,6 @@ class Bomb : public GameObject {
 	float pos_ybomb=0.0f;
 	float speed= 1.0f;
 	bool go_back = false;
-	bool fall = false;
 public:
 	void update() override;
 	void draw() override;

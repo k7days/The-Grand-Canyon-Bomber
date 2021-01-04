@@ -24,8 +24,10 @@ void Game::update()
 	if (bomb) {
 		if (graphics::getKeyState(graphics::SCANCODE_SPACE)) {
 			bomb->setPosition(player->get_pos_x(), player->get_pos_y());
+			fall = true;
 		}
-		bomb->update();
+		if(fall)
+			bomb->update();
 	}
 	
 }

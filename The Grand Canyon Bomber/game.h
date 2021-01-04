@@ -9,6 +9,7 @@ class Game {
 	bool player_initialized = false;
 	Bomb* bomb = nullptr;
 	bool bomb_initialized = false;
+	bool fall = false;
 public:
 	void update();
 	void draw();
