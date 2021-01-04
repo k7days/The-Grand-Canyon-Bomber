@@ -1,6 +1,7 @@
-#include "game.h";
-#include "graphics.h";
-#include "config.h";
+#include "game.h"
+#include "graphics.h"
+#include "config.h"
+#include "Bomb.h"
 
 void Game::update()
 {
@@ -13,6 +14,8 @@ void Game::update()
 		player->update();
 	}
 
+	//Creating bomb
+	bomb = new Bomb;
 }
 
 void Game::draw()
@@ -24,6 +27,10 @@ void Game::draw()
 	//draw player
 	if (player) {
 		player->draw();
+	}
+	//draw bomb
+	if (bomb) {
+		bomb->draw();
 	}
 	//draw text
 	graphics::Brush br2;
@@ -44,5 +51,9 @@ Game::~Game()
 {
 	if (player) {
 		delete player;
+	}
+
+	if (bomb) {
+		delete bomb;
 	}
 }

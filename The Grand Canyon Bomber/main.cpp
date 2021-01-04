@@ -1,7 +1,7 @@
-#include "graphics.h";
-#include "scancodes.h";
-#include "config.h";
-#include "game.h";
+#include "graphics.h"
+#include "scancodes.h"
+#include "config.h"
+#include "game.h"
 
 void update(float ms) {
 	Game* game = reinterpret_cast<Game *>(graphics::getUserData());
@@ -30,6 +30,7 @@ int main() {
 	graphics::setCanvasScaleMode(graphics::CANVAS_SCALE_FIT);
 
 	mygame.init();
+	//Runs the game!!!
 	graphics::startMessageLoop();
 
 	return 0;

@@ -33,3 +33,16 @@ void Player::draw()
 void Player::init()
 {
 }
+
+
+float Player::get_pos_x() {
+	return pos_x;
+}
+
+float Player::get_pos_y() {
+	return pos_y;
+}
+
+float Player::get_speed() {
+	return speed;
+}
