@@ -11,8 +11,10 @@ void Game::update()
 		player_initialized = true;
 	}
 	if (player) {
-		
-		player->update();
+		this->set_pos_x(player);
+		this->set_pos_y(player);
+		this->setReturning(player);
+		player->update();	
 	}
 
 	//Creating bomb
@@ -21,16 +23,9 @@ void Game::update()
 		bomb_initialized = true;
 		
 	}
-	if (bomb) {
-		//if (graphics::getKeyState(graphics::SCANCODE_SPACE)) {
-		//	//bomb->setPosition(player->get_pos_x(), player->get_pos_y());
-		//	bomb->setFalling(true);
-		//}
-		//if (bomb->isFalling()) {
+	if (bomb) 
 		bomb->update();
-		//}
-		//bomb->setFalling(false);
-	}
+
 	
 }
 
@@ -59,10 +54,16 @@ void Game::draw()
 void Game::init()
 {
 	graphics::setFont(std::string(ASSET_PATH) + "joystix.ttf");
+
 	if (bomb)
 		bomb->init();
-	if (player)
+	if (player) 
+	{
 		player->init();
+		this->set_pos_x(player);
+		this->set_pos_y(player);
+	}
+		
 }
 
 Game::Game()

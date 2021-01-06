@@ -2,9 +2,11 @@
 #include "Player.h"
 #include "config.h"
 
-class Bomb : public Player {
+class Bomb : public GameObject {
 	bool falling = false;
 	float posx_bomb, posy_bomb;
+	float speed = 1.0f;
+	bool go_back = false;
 public:
 	Bomb(const class Game& mygame);
 	void update() override;

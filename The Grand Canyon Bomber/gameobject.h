@@ -1,6 +1,7 @@
 #pragma once
 
 class GameObject {
+protected:
 	const class Game & game;
 public:
 	GameObject(const class Game& mygame);
