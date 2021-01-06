@@ -4,6 +4,11 @@
 #include "game.h"
 #include "Player.h"
 
+Bomb::Bomb(const Game& mygame)
+	:Player(mygame)
+{
+}
+
 void Bomb::update()
 {
 	

@@ -7,7 +7,7 @@ void Game::update()
 {
 	//Creating one player 
 	if (!player_initialized) {
-		player = new Player;
+		player = new Player(*this);
 		player_initialized = true;
 	}
 	if (player) {
@@ -17,7 +17,7 @@ void Game::update()
 
 	//Creating bomb
 	if (!bomb_initialized) {
-		bomb = new Bomb;
+		bomb = new Bomb(*this);
 		bomb_initialized = true;
 		
 	}

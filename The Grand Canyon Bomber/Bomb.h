@@ -6,6 +6,7 @@ class Bomb : public Player {
 	bool falling = false;
 	float posx_bomb, posy_bomb;
 public:
+	Bomb(const class Game& mygame);
 	void update() override;
 	void draw() override;
 	void init() override;

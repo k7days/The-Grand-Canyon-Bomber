@@ -9,6 +9,7 @@ protected:
 	float pos_y = CANVAS_HEIGHT / 4;
 	bool go_back = false;
 public:
+	Player(const class Game& mygame);
 	void update() override;
 	void draw() override;
 	void init() override;
