@@ -5,13 +5,15 @@
 void Player::update()
 {
 	//Plane movement
-	if (pos_x <= CANVAS_WIDTH + 80 && go_back == false) {
+	if (pos_x <= CANVAS_WIDTH +80 && go_back == false) {
 		pos_x += speed * graphics::getDeltaTime() / 10.0f;
 	}
 	else {
 		go_back = true;
 		pos_x -= speed * graphics::getDeltaTime() / 10.0f;
-		if (pos_x < -80) { go_back = false; }
+		if (pos_x < -80) {
+			go_back = false;
+		}
 	}
 }
 
@@ -32,6 +34,7 @@ void Player::draw()
 
 void Player::init()
 {
+
 }
 
 

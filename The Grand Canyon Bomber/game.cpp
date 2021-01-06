@@ -18,8 +18,7 @@ void Game::update()
 	//Creating bomb
 	if (!bomb_initialized) {
 		bomb = new Bomb;
-		bomb_initialized = true;
-		
+		bomb_initialized = true;		
 	}
 	if (bomb) {
 		if (graphics::getKeyState(graphics::SCANCODE_SPACE)) {
@@ -57,6 +56,7 @@ void Game::draw()
 void Game::init()
 {
 	graphics::setFont(std::string(ASSET_PATH) + "joystix.ttf");
+
 
 }
 

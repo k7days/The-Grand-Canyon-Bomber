@@ -14,5 +14,4 @@ public:
 	float get_pos_x();
 	float get_pos_y();
 
-
 };

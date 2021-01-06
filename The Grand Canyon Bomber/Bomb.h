@@ -5,9 +5,6 @@
 
 
 
-
-
-
 class Bomb : public GameObject {
 	float pos_xbomb= 0.0f;
 	float pos_ybomb=0.0f;
