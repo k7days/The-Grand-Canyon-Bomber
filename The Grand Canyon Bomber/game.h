@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Bomb.h"
 #include "targets.h"
+#include <vector>
 
 
 
@@ -13,6 +14,7 @@ class Game {
 	bool bomb_initialized = false;
 	bool fall = false;
 	float pos_x, pos_y, posx_bomb, posy_bomb;
+	std::vector<Targets> targets;
 	bool returning;
 public:
 	void update() ;

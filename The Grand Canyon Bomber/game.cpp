@@ -26,18 +26,20 @@ void Game::update()
 	}
 	if (bomb) 
 		bomb->update();
-
-	target = new Targets(*this);
 	
+
 	
 }
 
 void Game::draw()
 {
 	graphics::Brush br;
+	br.outline_opacity = 0.0f;
 	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
 	//draw background
 	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
+	br.texture = std::string(ASSET_PATH) + "tree.png";
+	graphics::drawRect(100, CANVAS_HEIGHT - 125.25f / 2, 200, 250.5f, br);
 	//draw player
 	if (player) {
 		player->draw();
@@ -47,9 +49,10 @@ void Game::draw()
 		bomb->draw();
 		
 	}
-
-	if (target)
-		target->draw();
+	
+	for (std::size_t i = 0; i != targets.size(); ++i) {
+		targets[i].draw();
+	}
 
 	//draw text
 	graphics::Brush br2;
@@ -69,7 +72,20 @@ void Game::init()
 		this->set_pos_x(player);
 		this->set_pos_y(player);
 	}
+	
+	int y = CANVAS_HEIGHT - 20;
+	
+	for (int i = 0; i < 7; i++)
+	{
 		
+		for (int x = 20; x < CANVAS_WIDTH; x += 20)
+		{
+			Targets* target = new Targets(*this, x, y);
+			targets.push_back(*target);
+		}
+		y -= 20;
+
+	}
 }
 
 Game::Game()
