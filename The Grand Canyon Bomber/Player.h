@@ -14,7 +14,5 @@ public:
 	void init() override;
 	float get_pos_x() const { return pos_x; };
 	float get_pos_y() const { return pos_y; };
-	//void set_pos_x(int x) { pos_x = x; };
-	//void set_pos_y(int y) { pos_y = y; };
 	bool isReturning() const{ return go_back; };
 };

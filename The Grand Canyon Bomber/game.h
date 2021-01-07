@@ -1,13 +1,15 @@
 #pragma once
 #include "Player.h"
 #include "Bomb.h"
+#include "targets.h"
 
 
 
 class Game {
 	Player* player = nullptr;
-	bool player_initialized = false;
 	Bomb* bomb = nullptr;
+	Targets* target = nullptr;
+	bool player_initialized = false;
 	bool bomb_initialized = false;
 	bool fall = false;
 	float pos_x, pos_y, posx_bomb, posy_bomb;

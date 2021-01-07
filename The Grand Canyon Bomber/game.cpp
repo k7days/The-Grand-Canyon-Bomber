@@ -3,6 +3,7 @@
 #include "config.h"
 #include "Bomb.h"
 
+
 void Game::update()
 {
 	//Creating one player 
@@ -26,6 +27,8 @@ void Game::update()
 	if (bomb) 
 		bomb->update();
 
+	target = new Targets(*this);
+	
 	
 }
 
@@ -44,6 +47,9 @@ void Game::draw()
 		bomb->draw();
 		
 	}
+
+	if (target)
+		target->draw();
 
 	//draw text
 	graphics::Brush br2;
