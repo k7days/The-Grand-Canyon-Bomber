@@ -51,6 +51,7 @@ void Game::draw()
 	
 
 	for (std::size_t i = 0; i != targets.size(); ++i) {
+		//this->set_value(&targets[i]);
 		targets[i].draw();
 	}
 	

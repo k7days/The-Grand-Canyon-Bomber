@@ -14,21 +14,18 @@ Targets::Targets(const Game& mygame, float x, float y, int val)
 
 void Targets::update()
 {
-	
 }
 
 void Targets::draw()
 {
 	graphics::Brush br;
 	br.outline_opacity = 0.0f;
-
-	int random = std::rand() % 4;
 	
-	if (random == 1)
+	if (targetValue == 1)
 	{
 		br.texture = std::string(ASSET_PATH) + "bball1.png";
 	}
-	else if ( random == 2)
+	else if ( targetValue == 2)
 	{
 		br.texture = std::string(ASSET_PATH) + "bball2.png";
 	}
@@ -39,6 +36,7 @@ void Targets::draw()
 	
 	graphics::drawRect(posx_target, posy_target, 20, 20, br);
 
+	
 }
 
 void Targets::init()
