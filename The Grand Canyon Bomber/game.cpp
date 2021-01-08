@@ -2,6 +2,8 @@
 #include "graphics.h"
 #include "config.h"
 #include "Bomb.h"
+#include <iostream>
+#include <random>
 
 
 void Game::update()
@@ -27,8 +29,6 @@ void Game::update()
 	if (bomb) 
 		bomb->update();
 	
-
-	
 }
 
 void Game::draw()
@@ -38,8 +38,6 @@ void Game::draw()
 	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
 	//draw background
 	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
-	br.texture = std::string(ASSET_PATH) + "tree.png";
-	graphics::drawRect(100, CANVAS_HEIGHT - 125.25f / 2, 200, 250.5f, br);
 	//draw player
 	if (player) {
 		player->draw();
@@ -49,10 +47,13 @@ void Game::draw()
 		bomb->draw();
 		
 	}
+
 	
+
 	for (std::size_t i = 0; i != targets.size(); ++i) {
 		targets[i].draw();
 	}
+	
 
 	//draw text
 	graphics::Brush br2;
@@ -80,12 +81,14 @@ void Game::init()
 		
 		for (int x = 20; x < CANVAS_WIDTH; x += 20)
 		{
-			Targets* target = new Targets(*this, x, y);
+			int val = (rand() % 3) + 1;
+			Targets* target = new Targets(*this, (float)x, (float)y, val);
 			targets.push_back(*target);
 		}
 		y -= 20;
 
 	}
+
 }
 
 Game::Game()
@@ -101,4 +104,5 @@ Game::~Game()
 	if (bomb) {
 		delete bomb;
 	}
+
 }

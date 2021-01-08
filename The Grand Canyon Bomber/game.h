@@ -16,6 +16,7 @@ class Game {
 	float pos_x, pos_y, posx_bomb, posy_bomb;
 	std::vector<Targets> targets;
 	bool returning;
+	int targetval;
 public:
 	void update() ;
 	void draw() ;
@@ -28,4 +29,6 @@ public:
 	void set_pos_y(Player* player) { pos_y = player->get_pos_y(); }
 	bool isReturning() const { return returning; }
 	void setReturning(Player* player) { returning = player->isReturning(); }
+	int get_value() const { return targetval; }
+	void set_value(Targets* target) { targetval = target->get_value(); }
 };
