@@ -4,6 +4,7 @@
 #include "Bomb.h"
 #include <iostream>
 #include <random>
+#include <ctime>
 
 
 void Game::update()
@@ -51,7 +52,7 @@ void Game::draw()
 	
 
 	for (std::size_t i = 0; i != targets.size(); ++i) {
-		//this->set_value(&targets[i]);
+		this->set_value(&targets[i]);
 		targets[i].draw();
 	}
 	
@@ -76,13 +77,15 @@ void Game::init()
 	}
 	
 	int y = CANVAS_HEIGHT - 20;
+	std::srand(std::time(0));
 	
 	for (int i = 0; i < 7; i++)
 	{
 		
 		for (int x = 20; x < CANVAS_WIDTH; x += 20)
 		{
-			int val = (rand() % 3) + 1;
+			 
+			int val = (std::rand() % 3) + 1;
 			Targets* target = new Targets(*this, (float)x, (float)y, val);
 			targets.push_back(*target);
 		}
