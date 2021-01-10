@@ -5,6 +5,7 @@
 #include <iostream>
 #include <random>
 #include <ctime>
+#include <map>
 
 
 void Game::update()
@@ -77,15 +78,53 @@ void Game::init()
 	}
 	
 	int y = CANVAS_HEIGHT - 20;
-	std::srand(std::time(0));
+	//std::srand(std::time(0));
+	std::random_device r;
+	std::mt19937 gen(r());
+	std::discrete_distribution<> d({ 0, 3, 97 });
 	
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		
 		for (int x = 20; x < CANVAS_WIDTH; x += 20)
 		{
 			 
-			int val = (std::rand() % 3) + 1;
+			//int val = (std::rand() % 3) + 1;
+			int val = d(gen);
+			Targets* target = new Targets(*this, (float)x, (float)y, val);
+			targets.push_back(*target);
+		}
+		y -= 20;
+
+	}
+
+	d = { 15, 45, 40 };
+
+	for (int i = 0; i < 3; i++)
+	{
+
+		for (int x = 20; x < CANVAS_WIDTH; x += 20)
+		{
+
+			//int val = (std::rand() % 3) + 1;
+			int val = d(gen);
+			Targets* target = new Targets(*this, (float)x, (float)y, val);
+			targets.push_back(*target);
+		}
+		y -= 20;
+
+	}
+
+	d = { 80, 15, 5 };
+
+	for (int i = 0; i < 3; i++)
+	{
+
+		for (int x = 20; x < CANVAS_WIDTH; x += 20)
+		{
+
+			//int val = (std::rand() % 3) + 1;
+			int val = d(gen);
 			Targets* target = new Targets(*this, (float)x, (float)y, val);
 			targets.push_back(*target);
 		}
