@@ -8,6 +8,25 @@
 #include <map>
 
 
+
+bool Game::checkCollision(Targets* t)
+{
+	/*if (!bomb || !target)
+		return false;*/
+
+	Disk d1 = bomb->getCollisionHull();	
+	Disk d2 = t->getCollisionHull();
+	float dx = d1.cx - d2.cx;
+	float dy = d1.cy - d2.cy;
+	if (sqrt(dx * dx + dy * dy) < d1.radius + d2.radius) {
+		return true;
+	}
+	else {
+		return false;
+	}
+		
+}
+
 void Game::update()
 {
 	//Creating one player 
@@ -30,6 +49,13 @@ void Game::update()
 	}
 	if (bomb) 
 		bomb->update();
+		
+	for (std::size_t i = 0; i != targets.size(); ++i) {
+		if (checkCollision(targets[i])) {
+			delete targets[i];
+			targets[i] = nullptr;
+		}
+	}
 	
 }
 
@@ -53,8 +79,8 @@ void Game::draw()
 	
 
 	for (std::size_t i = 0; i != targets.size(); ++i) {
-		this->set_value(&targets[i]);
-		targets[i].draw();
+		//this->set_value(targets[i]);
+		targets[i]->draw();
 	}
 	
 
@@ -81,7 +107,7 @@ void Game::init()
 	//std::srand(std::time(0));
 	std::random_device r;
 	std::mt19937 gen(r());
-	std::discrete_distribution<> d({ 0, 3, 97 });
+	std::discrete_distribution<> d({ 0, 3, 97});
 	
 	for (int i = 0; i < 1; i++)
 	{
@@ -90,15 +116,15 @@ void Game::init()
 		{
 			 
 			//int val = (std::rand() % 3) + 1;
-			int val = d(gen);
+			int val = d(gen) + 1;
 			Targets* target = new Targets(*this, (float)x, (float)y, val);
-			targets.push_back(*target);
+			targets.push_back(target);
 		}
 		y -= 20;
 
 	}
 
-	d = { 15, 45, 40 };
+	d = { 50, 43, 7};
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -107,15 +133,15 @@ void Game::init()
 		{
 
 			//int val = (std::rand() % 3) + 1;
-			int val = d(gen);
+			int val = d(gen)+ 1;
 			Targets* target = new Targets(*this, (float)x, (float)y, val);
-			targets.push_back(*target);
+			targets.push_back(target);
 		}
 		y -= 20;
 
 	}
 
-	d = { 80, 15, 5 };
+	d = {90, 9, 1};
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -124,14 +150,43 @@ void Game::init()
 		{
 
 			//int val = (std::rand() % 3) + 1;
-			int val = d(gen);
+			int val = d(gen) + 1;
 			Targets* target = new Targets(*this, (float)x, (float)y, val);
-			targets.push_back(*target);
+			targets.push_back(target);
 		}
 		y -= 20;
 
 	}
 
+	d = { 100, 0, 0 };
+
+
+
+	for (int x = 20; x < 61; x += 20) {
+		int val = d(gen) + 1;
+		Targets* target = new Targets(*this, (float)x, (float)y, val);
+		targets.push_back(target);
+	}
+
+
+	y -= 20;
+
+	for (int x = 20; x < 41; x += 20) {
+		int val = d(gen) + 1;
+		Targets* target = new Targets(*this, (float)x, (float)y, val);
+		targets.push_back(target);
+	}
+
+	y -= 20;
+
+	for (int x = 20; x < 21; x += 20) {
+		int val = d(gen) + 1;
+		Targets* target = new Targets(*this, (float)x, (float)y, val);
+		targets.push_back(target);
+	}
+
+	
+	
 }
 
 Game::Game()
@@ -148,4 +203,10 @@ Game::~Game()
 		delete bomb;
 	}
 
+	for (Targets* i : targets) {
+		if (i)
+			delete i;
+	}
+
+	
 }

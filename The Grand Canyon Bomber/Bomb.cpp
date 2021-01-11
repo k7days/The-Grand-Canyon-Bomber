@@ -11,16 +11,27 @@ Bomb::Bomb(const Game& mygame)
 
 void Bomb::update()
 {
-		if (pos_xbomb <= CANVAS_WIDTH && go_back == false) {
-			pos_ybomb += speed * graphics::getDeltaTime() / 10.0f;
-			pos_xbomb += 0.5f * graphics::getDeltaTime() / 10.0f;
+	if (graphics::getKeyState(graphics::SCANCODE_SPACE))
+	{
+		falling = true;
+		posx_bomb = game.get_pos_x();
+		posy_bomb = game.get_pos_y();
+
+	}
+
+	if (falling)
+	{
+		if (!game.isReturning())
+		{
+			posy_bomb += speed * graphics::getDeltaTime() / 10.0f;
+			posx_bomb += 0.5f * graphics::getDeltaTime() / 10.0f;
 		}
-		else {
-			go_back = true;
-			pos_ybomb += speed * graphics::getDeltaTime() / 10.0f;
-			pos_xbomb -= 0.5f * graphics::getDeltaTime() / 10.0f;
-			if (pos_xbomb < 0) { go_back = false; }
+		else
+		{
+			posy_bomb += speed * graphics::getDeltaTime() / 10.0f;
+			posx_bomb -= 0.5f * graphics::getDeltaTime() / 10.0f;
 		}
+	}
 	}
 
 
@@ -43,6 +54,16 @@ void Bomb::draw()
 
 void Bomb::init()
 {
+}
+
+Disk Bomb::getCollisionHull() const
+{
+	Disk disk;
+	disk.cx = posx_bomb;
+	disk.cy = posy_bomb;
+	disk.radius = 12.0f;
+
+	return disk;
 }
 
 //void Bomb::setPosition(float posx, float posy) {

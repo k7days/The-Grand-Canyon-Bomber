@@ -42,3 +42,13 @@ void Targets::draw()
 void Targets::init()
 {
 }
+
+Disk Targets::getCollisionHull() const
+{
+	Disk disk;
+	disk.cx = posx_target;
+	disk.cy = posy_target;
+	disk.radius = 12.0f;
+
+	return disk;
+}
