@@ -14,9 +14,10 @@ class Game {
 	bool bomb_initialized = false;
 	bool fall = false;
 	float pos_x, pos_y, posx_bomb, posy_bomb;
-	std::vector<Targets> targets;
+	std::vector<Targets*> targets;
 	bool returning;
 	int targetval;
+	bool checkCollision(Targets* t);
 public:
 	void update() ;
 	void draw() ;

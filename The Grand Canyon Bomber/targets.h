@@ -3,7 +3,7 @@
 #include "gameobject.h"
 #include <vector>
 
-class Targets : public GameObject
+class Targets : public GameObject, public Collidable
 {
 	float posx_target, posy_target;
 	int targetValue;
@@ -13,4 +13,5 @@ public:
 	void draw() override;
 	void init() override;
 	int get_value() { return targetValue; }
+	Disk getCollisionHull() const override;
 };

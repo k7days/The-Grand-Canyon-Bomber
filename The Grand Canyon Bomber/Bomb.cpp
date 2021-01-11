@@ -11,13 +11,12 @@ Bomb::Bomb(const Game& mygame)
 
 void Bomb::update()
 {
-	
 	if (graphics::getKeyState(graphics::SCANCODE_SPACE))
 	{
 		falling = true;
 		posx_bomb = game.get_pos_x();
- 		posy_bomb = game.get_pos_y();
-		
+		posy_bomb = game.get_pos_y();
+
 	}
 
 	if (falling)
@@ -33,8 +32,7 @@ void Bomb::update()
 			posx_bomb -= 0.5f * graphics::getDeltaTime() / 10.0f;
 		}
 	}
-	
-}
+	}
 
 
 void Bomb::draw()
@@ -56,6 +54,16 @@ void Bomb::draw()
 
 void Bomb::init()
 {
+}
+
+Disk Bomb::getCollisionHull() const
+{
+	Disk disk;
+	disk.cx = posx_bomb;
+	disk.cy = posy_bomb;
+	disk.radius = 12.0f;
+
+	return disk;
 }
 
 //void Bomb::setPosition(float posx, float posy) {
