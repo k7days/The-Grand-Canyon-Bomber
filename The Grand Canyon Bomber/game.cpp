@@ -51,9 +51,12 @@ void Game::update()
 		bomb->update();
 		
 	for (std::size_t i = 0; i != targets.size(); ++i) {
-		if (checkCollision(targets[i])) {
-			delete targets[i];
-			targets[i] = nullptr;
+		if (targets[i]) {	
+			if (checkCollision(targets[i])) {
+				player->setScore(targets[i]->get_value());
+				delete targets[i];
+				targets[i] = nullptr;
+			}
 		}
 	}
 	
@@ -76,18 +79,22 @@ void Game::draw()
 		
 	}
 
-	
 
 	for (std::size_t i = 0; i != targets.size(); ++i) {
-		//this->set_value(targets[i]);
-		targets[i]->draw();
+		if (targets[i]) {
+			this->set_value(targets[i]);
+			targets[i]->draw();
+		}
 	}
 	
 
 	//draw text
 	graphics::Brush br2;
 	graphics::drawText(30, 50, 15, "Lives : 3", br2);
-	graphics::drawText(150, 50, 15, "Score : ", br2);
+	if (player) {
+		std::string s = std::to_string(player->getScore());
+		graphics::drawText(150, 50, 15, "Score : " + s, br2);
+	}
 }
 
 void Game::init()

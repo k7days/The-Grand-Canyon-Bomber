@@ -6,6 +6,7 @@
 Player::Player(const Game& mygame)
 	:GameObject(mygame)
 {
+	score = 0;
 }
 
 
