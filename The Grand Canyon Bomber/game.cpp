@@ -2,38 +2,41 @@
 #include "graphics.h"
 #include "config.h"
 #include "Bomb.h"
+#include <iostream>
+#include <random>
+#include <ctime>
+#include <map>
+
 
 void Game::update()
 {
 	//Creating one player 
 	if (!player_initialized) {
-		player = new Player;
+		player = new Player(*this);
 		player_initialized = true;
 	}
 	if (player) {
-		
-		player->update();
+		this->set_pos_x(player);
+		this->set_pos_y(player);
+		this->setReturning(player);
+		player->update();	
 	}
 
 	//Creating bomb
 	if (!bomb_initialized) {
-		bomb = new Bomb;
-		bomb_initialized = true;		
+		bomb = new Bomb(*this);
+		bomb_initialized = true;
+		
 	}
-	if (bomb) {
-		if (graphics::getKeyState(graphics::SCANCODE_SPACE)) {
-			bomb->setPosition(player->get_pos_x(), player->get_pos_y());
-			fall = true;
-		}
-		if(fall)
-			bomb->update();
-	}
+	if (bomb) 
+		bomb->update();
 	
 }
 
 void Game::draw()
 {
 	graphics::Brush br;
+	br.outline_opacity = 0.0f;
 	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
 	//draw background
 	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
@@ -47,6 +50,14 @@ void Game::draw()
 		
 	}
 
+	
+
+	for (std::size_t i = 0; i != targets.size(); ++i) {
+		this->set_value(&targets[i]);
+		targets[i].draw();
+	}
+	
+
 	//draw text
 	graphics::Brush br2;
 	graphics::drawText(30, 50, 15, "Lives : 3", br2);
@@ -57,6 +68,69 @@ void Game::init()
 {
 	graphics::setFont(std::string(ASSET_PATH) + "joystix.ttf");
 
+	if (bomb)
+		bomb->init();
+	if (player) 
+	{
+		player->init();
+		this->set_pos_x(player);
+		this->set_pos_y(player);
+	}
+	
+	int y = CANVAS_HEIGHT - 20;
+	//std::srand(std::time(0));
+	std::random_device r;
+	std::mt19937 gen(r());
+	std::discrete_distribution<> d({ 0, 3, 97 });
+	
+	for (int i = 0; i < 1; i++)
+	{
+		
+		for (int x = 20; x < CANVAS_WIDTH; x += 20)
+		{
+			 
+			//int val = (std::rand() % 3) + 1;
+			int val = d(gen);
+			Targets* target = new Targets(*this, (float)x, (float)y, val);
+			targets.push_back(*target);
+		}
+		y -= 20;
+
+	}
+
+	d = { 15, 45, 40 };
+
+	for (int i = 0; i < 3; i++)
+	{
+
+		for (int x = 20; x < CANVAS_WIDTH; x += 20)
+		{
+
+			//int val = (std::rand() % 3) + 1;
+			int val = d(gen);
+			Targets* target = new Targets(*this, (float)x, (float)y, val);
+			targets.push_back(*target);
+		}
+		y -= 20;
+
+	}
+
+	d = { 80, 15, 5 };
+
+	for (int i = 0; i < 3; i++)
+	{
+
+		for (int x = 20; x < CANVAS_WIDTH; x += 20)
+		{
+
+			//int val = (std::rand() % 3) + 1;
+			int val = d(gen);
+			Targets* target = new Targets(*this, (float)x, (float)y, val);
+			targets.push_back(*target);
+		}
+		y -= 20;
+
+	}
 
 }
 
@@ -73,4 +147,5 @@ Game::~Game()
 	if (bomb) {
 		delete bomb;
 	}
+
 }

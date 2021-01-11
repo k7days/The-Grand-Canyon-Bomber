@@ -8,10 +8,11 @@ class Player : public GameObject {
 	float pos_y = CANVAS_HEIGHT / 4;
 	bool go_back = false;
 public:
+	Player(const class Game& mygame);
 	void update() override;
 	void draw() override;
 	void init() override;
-	float get_pos_x();
-	float get_pos_y();
-
+	float get_pos_x() const { return pos_x; };
+	float get_pos_y() const { return pos_y; };
+	bool isReturning() const{ return go_back; };
 };
