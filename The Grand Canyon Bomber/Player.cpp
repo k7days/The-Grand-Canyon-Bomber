@@ -6,6 +6,7 @@
 Player::Player(const Game& mygame)
 	:GameObject(mygame)
 {
+	score = 0;
 }
 
 
@@ -28,10 +29,10 @@ void Player::draw()
 	//Draw plane based on it's direction
 	graphics::Brush br;
 	if (go_back == false) {
-		br.texture = std::string(ASSET_PATH) + "ANA.png";
+		br.texture = std::string(ASSET_PATH) + "ana.png";
 	}
 	else {
-		br.texture = std::string(ASSET_PATH) + "ANAleft.png";
+		br.texture = std::string(ASSET_PATH) + "analeft.png";
 	}
 	br.outline_opacity = 0.0f;
 	graphics::drawRect(pos_x, pos_y, CANVAS_WIDTH / 6, CANVAS_HEIGHT / 8, br);
@@ -49,4 +50,3 @@ void Player::init()
 	speed = 1.0f;*/
 
 }
-

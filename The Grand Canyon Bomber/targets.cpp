@@ -48,7 +48,7 @@ Disk Targets::getCollisionHull() const
 	Disk disk;
 	disk.cx = posx_target;
 	disk.cy = posy_target;
-	disk.radius = 12.0f;
+	disk.radius = 20 * 0.45;
 
 	return disk;
 }

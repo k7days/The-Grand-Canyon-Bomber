@@ -14,6 +14,7 @@ void Bomb::update()
 	if (graphics::getKeyState(graphics::SCANCODE_SPACE))
 	{
 		falling = true;
+		returning = (game.isReturning()) ? true : false;
 		posx_bomb = game.get_pos_x();
 		posy_bomb = game.get_pos_y();
 
@@ -21,13 +22,20 @@ void Bomb::update()
 
 	if (falling)
 	{
-		if (!game.isReturning())
+		if (!returning)
 		{
+			if (posx_bomb >= CANVAS_WIDTH)
+				returning = true;
+				
 			posy_bomb += speed * graphics::getDeltaTime() / 10.0f;
 			posx_bomb += 0.5f * graphics::getDeltaTime() / 10.0f;
+			
 		}
 		else
 		{
+			if (posx_bomb <= 0)
+				returning = false;
+
 			posy_bomb += speed * graphics::getDeltaTime() / 10.0f;
 			posx_bomb -= 0.5f * graphics::getDeltaTime() / 10.0f;
 		}
@@ -40,7 +48,7 @@ void Bomb::draw()
 		graphics::Brush br;
 		br.texture = std::string(ASSET_PATH) + "bomb.png";
 		br.outline_opacity = 0.0f;
-		graphics::drawRect(posx_bomb, posy_bomb, 20, 20, br);
+		graphics::drawRect(posx_bomb, posy_bomb, 20,20, br);
 		
 		//char info[40];
 		//sprintf_s(info, "(%6.2f, %6.2f))", pos_x, pos_y);
@@ -70,7 +78,3 @@ Disk Bomb::getCollisionHull() const
 //	pos_xbomb = posx;
 //	pos_ybomb = posy;
 //}
-
-
-
-

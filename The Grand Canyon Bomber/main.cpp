@@ -3,6 +3,8 @@
 #include "config.h"
 #include "game.h"
 
+
+
 void update(float ms) {
 	Game* game = reinterpret_cast<Game *>(graphics::getUserData());
 	game->update();
@@ -17,12 +19,14 @@ void draw() {
 
 int main() {
 
+	
 	Game mygame;
 
 	graphics::createWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Grand Canyon Bomber");
+	graphics::setFullScreen(true);
 
 	graphics::setUserData(&mygame);
-
+		
 	graphics::setDrawFunction(draw);
 	graphics::setUpdateFunction(update);
 
@@ -32,7 +36,8 @@ int main() {
 	mygame.init();
 	//Runs the game!!!
 	graphics::startMessageLoop();
-
+	graphics::destroyWindow();
+	
 
 	return 0;
 }
