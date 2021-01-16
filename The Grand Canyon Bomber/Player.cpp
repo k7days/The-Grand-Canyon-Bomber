@@ -29,10 +29,10 @@ void Player::draw()
 	//Draw plane based on it's direction
 	graphics::Brush br;
 	if (go_back == false) {
-		br.texture = std::string(ASSET_PATH) + "ana.png";
+		br.texture = std::string(ASSET_PATH) + "fedexright.png";
 	}
 	else {
-		br.texture = std::string(ASSET_PATH) + "analeft.png";
+		br.texture = std::string(ASSET_PATH) + "fedex.png";
 	}
 	br.outline_opacity = 0.0f;
 	graphics::drawRect(pos_x, pos_y, CANVAS_WIDTH / 6, CANVAS_HEIGHT / 8, br);

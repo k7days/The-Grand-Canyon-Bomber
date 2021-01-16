@@ -7,12 +7,11 @@
 
 
 class Game {
-	typedef enum{STATUS_START, STATUS_PLAYING} status_t;
+	typedef enum{STATUS_START, STATUS_PLAYING, STATUS_END} status_t;
 	Player* player = nullptr;
 	Bomb* bomb = nullptr;
 	Targets* target = nullptr;
 	bool player_initialized = false;
-	//bool bomb_initialized = false;
 	bool fall = false;
 	float pos_x, pos_y, posx_bomb, posy_bomb;
 	std::vector<Targets*> targets;
@@ -24,7 +23,10 @@ class Game {
 	void updatePlayingScreen();
 	void drawStartScreen();
 	void drawPlayingScreen();
-	unsigned int window_width = WINDOW_WIDTH, window_height = WINDOW_HEIGHT;
+	void updateEndScreen();
+	void drawEndScreen();
+	bool collided;
+	bool bomb_initialized = false;
 public:
 	void update() ;
 	void draw() ;

@@ -4,30 +4,18 @@
 #include "Bomb.h"
 #include <iostream>
 #include <random>
-#include <ctime>
-#include <map>
+//#include <ctime>
+//#include <map>
 
 
-
-bool Game::checkCollision(Targets* t)
+void Game::update()
 {
-	if (!bomb)
-		return false;
-
-	Disk d1 = bomb->getCollisionHull();	
-
-
-
-	Disk d2 = t->getCollisionHull();
-	float dx = d1.cx - d2.cx;
-	float dy = d1.cy - d2.cy;
-	if (sqrt(dx * dx + dy * dy) < d1.radius + d2.radius) {
-		return true;
-	}
-	else {
-		return false;
-	}
-		
+	if (status == STATUS_START)
+		updateStartScreen();
+	else if (status == STATUS_PLAYING)
+		updatePlayingScreen();
+	else
+		updateEndScreen();
 }
 
 void Game::updateStartScreen()
@@ -51,33 +39,49 @@ void Game::updatePlayingScreen()
 	}
 
 	//Creating bomb
-	if (graphics::getKeyState(graphics::SCANCODE_SPACE)) {
+	if (graphics::getKeyState(graphics::SCANCODE_SPACE) && bomb_initialized == false) {
 		bomb = new Bomb(*this, this->get_pos_x(), this->get_pos_y(), true);
-		//bomb_initialized = true;
+		bomb_initialized = true;
 		bomb->update();
 
-	}
-	
+	} 
+
 	if (bomb)
 		bomb->update();
+
+	if (bomb && bomb->get_pos_y_bomb() > CANVAS_HEIGHT)
+	{
+		if (!collided)
+		{
+			player->decreaseLives();
+		}
+		collided = false;
+		bomb_initialized = false;
+		delete bomb;
+		bomb = nullptr;
+	}
+	
 
 	for (std::size_t i = 0; i != targets.size(); ++i) {
 		if (targets[i]) {
 			if (checkCollision(targets[i])) {
 				player->setScore(targets[i]->get_value());
+				collided = true;
 				delete targets[i];
 				targets[i] = nullptr;
 			}
 		}
 	}
 
-	for (std::size_t i = 0; i != targets.size(); ++i) {
-		if (targets[i]) {
-			if (!checkCollision(targets[i]) && posy_bomb < 0) {
-				bomb->decreaseLives();
-			}
-		}
+	if (player->getLives() == 0)
+	{
+		status = STATUS_END;
 	}
+
+}
+
+void Game::updateEndScreen()
+{
 }
 
 void Game::drawStartScreen()
@@ -89,8 +93,6 @@ void Game::drawStartScreen()
 	graphics::drawText(CANVAS_WIDTH / 2.5f, CANVAS_HEIGHT / 1.93f, 15, "3.  EXIT  THE  GAME", br);
 	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
 	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
-	
-
 }
 
 void Game::drawPlayingScreen()
@@ -121,31 +123,32 @@ void Game::drawPlayingScreen()
 
 	//draw text
 	graphics::Brush br2;
-	if (player && bomb) {
-		std::string l = std::to_string(bomb->getLives());
+	if (player) 
+	{
+		std::string l = std::to_string(player->getLives());
 		graphics::drawText(30, 50, 15, "Lives : " + l, br2);
 		std::string s = std::to_string(player->getScore());
 		graphics::drawText(150, 50, 15, "Score : " + s, br2);
 	}
 }
 
-void Game::update()
-{	
-	if (status == STATUS_START)
-		updateStartScreen();
-	else
-		updatePlayingScreen();
-
-
-	
+void Game::drawEndScreen()
+{
+	graphics::Brush br;
+	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
+	graphics::drawText(CANVAS_WIDTH / 1, CANVAS_HEIGHT /2 , 20, "GAME OVER", br);
+	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
 }
+
 
 void Game::draw()
 {
 	if (status == STATUS_START)
 		drawStartScreen();
-	else
+	else if (status == STATUS_PLAYING)
 		drawPlayingScreen();
+	else
+		drawEndScreen();
 }
 
 void Game::init()
@@ -243,10 +246,10 @@ void Game::init()
 		targets.push_back(target);
 	}
 
-	graphics::Brush br2;
+	/*graphics::Brush br2;
 	
 	graphics::drawText(30, 50, 15, "Lives : 3", br2);
-	graphics::drawText(150, 50, 15, "Score : 0", br2);
+	graphics::drawText(150, 50, 15, "Score : 0", br2);*/
 	
 }
 
@@ -280,3 +283,24 @@ Game::~Game()
 //{
 //	return y * CANVAS_HEIGHT / (float)window_height;
 //}
+
+bool Game::checkCollision(Targets* t)
+{
+	if (!bomb)
+		return false;
+
+	Disk d1 = bomb->getCollisionHull();
+
+
+
+	Disk d2 = t->getCollisionHull();
+	float dx = d1.cx - d2.cx;
+	float dy = d1.cy - d2.cy;
+	if (sqrt(dx * dx + dy * dy) < d1.radius + d2.radius) {
+		return true;
+	}
+	else {
+		return false;
+	}
+
+}

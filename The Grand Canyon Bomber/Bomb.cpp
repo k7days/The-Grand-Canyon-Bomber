@@ -17,11 +17,7 @@ void Bomb::update()
 {
 	if (graphics::getKeyState(graphics::SCANCODE_SPACE))
 	{
-		//falling = true;
 		returning = (game.isReturning()) ? true : false;
-		//posx_bomb = game.get_pos_x();
-		//posy_bomb = game.get_pos_y();
-
 	}
 
 	//returning = (game.isReturning()) ? true : false;
