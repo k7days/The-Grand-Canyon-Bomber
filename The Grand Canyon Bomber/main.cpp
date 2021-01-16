@@ -5,6 +5,12 @@
 
 
 
+//void resize(int w, int h) {
+//	Game* game = reinterpret_cast<Game*>(graphics::getUserData());
+//	game->setWindowDimensions((unsigned int)w,(unsigned int) h);
+//}
+
+
 void update(float ms) {
 	Game* game = reinterpret_cast<Game *>(graphics::getUserData());
 	game->update();

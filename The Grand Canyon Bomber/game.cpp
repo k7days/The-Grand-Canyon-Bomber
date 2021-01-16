@@ -15,6 +15,9 @@ bool Game::checkCollision(Targets* t)
 		return false;*/
 
 	Disk d1 = bomb->getCollisionHull();	
+
+
+
 	Disk d2 = t->getCollisionHull();
 	float dx = d1.cx - d2.cx;
 	float dy = d1.cy - d2.cy;
@@ -27,7 +30,13 @@ bool Game::checkCollision(Targets* t)
 		
 }
 
-void Game::update()
+void Game::updateStartScreen()
+{
+	if (graphics::getKeyState(graphics::SCANCODE_1))
+		status = STATUS_PLAYING;
+}
+
+void Game::updatePlayingScreen()
 {
 	//Creating one player 
 	if (!player_initialized) {
@@ -38,20 +47,20 @@ void Game::update()
 		this->set_pos_x(player);
 		this->set_pos_y(player);
 		this->setReturning(player);
-		player->update();	
+		player->update();
 	}
 
 	//Creating bomb
 	if (!bomb_initialized) {
 		bomb = new Bomb(*this);
 		bomb_initialized = true;
-		
+
 	}
-	if (bomb) 
+	if (bomb)
 		bomb->update();
-		
+
 	for (std::size_t i = 0; i != targets.size(); ++i) {
-		if (targets[i]) {	
+		if (targets[i]) {
 			if (checkCollision(targets[i])) {
 				player->setScore(targets[i]->get_value());
 				delete targets[i];
@@ -59,10 +68,30 @@ void Game::update()
 			}
 		}
 	}
-	
+
+	/*for (std::size_t i = 0; i != targets.size(); ++i) {
+		if (targets[i]) {
+			if (!checkCollision(targets[i]) && posy_bomb < 0) {
+				bomb->decreaseLives();
+			}
+		}
+	}*/
 }
 
-void Game::draw()
+void Game::drawStartScreen()
+{
+	graphics::Brush br;
+	graphics::drawText(CANVAS_WIDTH/3, 50, 20, "THE  GRAND  CANYON  BOMBER", br);
+	graphics::drawText(CANVAS_WIDTH / 2.5f, CANVAS_HEIGHT/2.5f, 15, "1.  START  THE  GAME", br);
+	graphics::drawText(CANVAS_WIDTH / 2.5f, CANVAS_HEIGHT / 2.2f, 15, "2.  CREDITS", br);
+	graphics::drawText(CANVAS_WIDTH / 2.5f, CANVAS_HEIGHT / 1.93f, 15, "3.  EXIT  THE  GAME", br);
+	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
+	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
+	
+
+}
+
+void Game::drawPlayingScreen()
 {
 	graphics::Brush br;
 	br.outline_opacity = 0.0f;
@@ -76,7 +105,7 @@ void Game::draw()
 	//draw bomb
 	if (bomb) {
 		bomb->draw();
-		
+
 	}
 
 
@@ -86,15 +115,35 @@ void Game::draw()
 			targets[i]->draw();
 		}
 	}
-	
+
 
 	//draw text
 	graphics::Brush br2;
-	graphics::drawText(30, 50, 15, "Lives : 3", br2);
 	if (player) {
+		std::string l = std::to_string(bomb->getLives());
+		graphics::drawText(30, 50, 15, "Lives : " + l, br2);
 		std::string s = std::to_string(player->getScore());
 		graphics::drawText(150, 50, 15, "Score : " + s, br2);
 	}
+}
+
+void Game::update()
+{	
+	if (status == STATUS_START)
+		updateStartScreen();
+	else
+		updatePlayingScreen();
+
+
+	
+}
+
+void Game::draw()
+{
+	if (status == STATUS_START)
+		drawStartScreen();
+	else
+		drawPlayingScreen();
 }
 
 void Game::init()
@@ -216,4 +265,13 @@ Game::~Game()
 	}
 
 	
-}	
+}
+//float Game::window2canvasX(float x)
+//{
+//	return x * CANVAS_WIDTH / (float)window_width;
+//}
+//
+//float Game::window2canvasY(float y)
+//{
+//	return y * CANVAS_HEIGHT / (float)window_height;
+//}
