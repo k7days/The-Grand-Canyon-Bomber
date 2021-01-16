@@ -12,7 +12,7 @@ class Game {
 	Bomb* bomb = nullptr;
 	Targets* target = nullptr;
 	bool player_initialized = false;
-	bool bomb_initialized = false;
+	//bool bomb_initialized = false;
 	bool fall = false;
 	float pos_x, pos_y, posx_bomb, posy_bomb;
 	std::vector<Targets*> targets;
@@ -25,7 +25,7 @@ class Game {
 	void drawStartScreen();
 	void drawPlayingScreen();
 	unsigned int window_width = WINDOW_WIDTH, window_height = WINDOW_HEIGHT;
-	public:
+public:
 	void update() ;
 	void draw() ;
 	void init() ;
@@ -35,6 +35,10 @@ class Game {
 	float get_pos_y() const { return pos_y; };
 	void set_pos_x(Player* player) { pos_x = player->get_pos_x(); }
 	void set_pos_y(Player* player) { pos_y = player->get_pos_y(); }
+	float get_pos_x_bomb() const { return posx_bomb; };
+	float get_pos_y_bomb() const { return posy_bomb; };
+	void set_pos_x_bomb(Bomb* bomb) { pos_x = bomb->get_pos_x_bomb(); }
+	void set_pos_y_bomb(Bomb* bomb) { pos_y = bomb->get_pos_y_bomb(); }
 	bool isReturning() const { return returning; }
 	void setReturning(Player* player) { returning = player->isReturning(); }
 	int get_value() const { return targetval; }

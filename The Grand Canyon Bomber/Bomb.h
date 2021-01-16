@@ -9,7 +9,7 @@ class Bomb : public GameObject, public Collidable {
 	bool returning = false;
 	int lives = 3;
 public:
-	Bomb(const class Game& mygame);
+	Bomb(const class Game& mygame, float posx, float posy, bool fall);
 	void update() override;
 	void draw() override;
 	void init() override;
@@ -18,4 +18,6 @@ public:
 	Disk getCollisionHull() const override;
 	int getLives() { return lives; }
 	void decreaseLives() { lives -= 1; }
+	float get_pos_x_bomb() const { return posx_bomb; };
+	float get_pos_y_bomb() const { return posy_bomb; };
 };

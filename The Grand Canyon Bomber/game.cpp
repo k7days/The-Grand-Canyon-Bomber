@@ -11,8 +11,8 @@
 
 bool Game::checkCollision(Targets* t)
 {
-	/*if (!bomb || !target)
-		return false;*/
+	if (!bomb)
+		return false;
 
 	Disk d1 = bomb->getCollisionHull();	
 
@@ -51,11 +51,13 @@ void Game::updatePlayingScreen()
 	}
 
 	//Creating bomb
-	if (!bomb_initialized) {
-		bomb = new Bomb(*this);
-		bomb_initialized = true;
+	if (graphics::getKeyState(graphics::SCANCODE_SPACE)) {
+		bomb = new Bomb(*this, this->get_pos_x(), this->get_pos_y(), true);
+		//bomb_initialized = true;
+		bomb->update();
 
 	}
+	
 	if (bomb)
 		bomb->update();
 
@@ -69,13 +71,13 @@ void Game::updatePlayingScreen()
 		}
 	}
 
-	/*for (std::size_t i = 0; i != targets.size(); ++i) {
+	for (std::size_t i = 0; i != targets.size(); ++i) {
 		if (targets[i]) {
 			if (!checkCollision(targets[i]) && posy_bomb < 0) {
 				bomb->decreaseLives();
 			}
 		}
-	}*/
+	}
 }
 
 void Game::drawStartScreen()
@@ -119,7 +121,7 @@ void Game::drawPlayingScreen()
 
 	//draw text
 	graphics::Brush br2;
-	if (player) {
+	if (player && bomb) {
 		std::string l = std::to_string(bomb->getLives());
 		graphics::drawText(30, 50, 15, "Lives : " + l, br2);
 		std::string s = std::to_string(player->getScore());
@@ -241,7 +243,10 @@ void Game::init()
 		targets.push_back(target);
 	}
 
+	graphics::Brush br2;
 	
+	graphics::drawText(30, 50, 15, "Lives : 3", br2);
+	graphics::drawText(150, 50, 15, "Score : 0", br2);
 	
 }
 

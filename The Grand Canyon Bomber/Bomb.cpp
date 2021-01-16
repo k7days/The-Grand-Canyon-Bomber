@@ -3,9 +3,13 @@
 #include "graphics.h"
 #include "game.h"
 
-Bomb::Bomb(const Game& mygame)
+Bomb::Bomb(const Game& mygame, float posx, float posy, bool fall)
 	:GameObject(mygame)
 {
+	posx_bomb = posx;
+	posy_bomb = posy;
+	falling = fall;
+
 }
 
 
@@ -13,13 +17,15 @@ void Bomb::update()
 {
 	if (graphics::getKeyState(graphics::SCANCODE_SPACE))
 	{
-		falling = true;
+		//falling = true;
 		returning = (game.isReturning()) ? true : false;
-		posx_bomb = game.get_pos_x();
-		posy_bomb = game.get_pos_y();
+		//posx_bomb = game.get_pos_x();
+		//posy_bomb = game.get_pos_y();
 
 	}
 
+	//returning = (game.isReturning()) ? true : false;
+	
 	if (falling)
 	{
 		if (!returning)
