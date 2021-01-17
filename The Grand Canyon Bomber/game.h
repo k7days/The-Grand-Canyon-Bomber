@@ -7,7 +7,7 @@
 
 
 class Game {
-	typedef enum{STATUS_START, STATUS_PLAYING, STATUS_END} status_t;
+	typedef enum{STATUS_START, STATUS_PLAYING, STATUS_LOSE, STATUS_WIN, STATUS_TEST} status_t;
 	Player* player = nullptr;
 	Bomb* bomb = nullptr;
 	Targets* target = nullptr;
@@ -23,10 +23,15 @@ class Game {
 	void updatePlayingScreen();
 	void drawStartScreen();
 	void drawPlayingScreen();
-	void updateEndScreen();
-	void drawEndScreen();
+	void updateLoseScreen();
+	void drawLoseScreen();
+	void updateWinScreen();
+	void drawWinScreen();
 	bool collided;
 	bool bomb_initialized = false;
+	int c = 0;
+	bool debug_mode = false;
+	float current_time = 0.0f;
 public:
 	void update() ;
 	void draw() ;
@@ -45,6 +50,7 @@ public:
 	void setReturning(Player* player) { returning = player->isReturning(); }
 	int get_value() const { return targetval; }
 	void set_value(Targets* target) { targetval = target->get_value(); }
+	bool getDebugMode() const { return debug_mode; }
 	/*unsigned int getWindowWidth() { return WINDOW_WIDTH; }
 	unsigned int getWindowHeight() { return WINDOW_HEIGHT; }
 	void setWindowDimensions(unsigned int w, unsigned int h) {

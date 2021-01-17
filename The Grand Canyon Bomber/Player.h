@@ -20,5 +20,5 @@ public:
 	int getScore() { return score; }
 	void setScore(int sc) { score += sc; }
 	int getLives() { return lives; }
-	void decreaseLives() { lives -= 1; }
+	void decreaseLives() { lives --; }
 };

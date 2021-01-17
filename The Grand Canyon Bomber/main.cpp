@@ -29,7 +29,7 @@ int main() {
 	Game mygame;
 
 	graphics::createWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Grand Canyon Bomber");
-	graphics::setFullScreen(true);
+	//graphics::setFullScreen(true);
 
 	graphics::setUserData(&mygame);
 		

@@ -14,14 +14,24 @@ void Game::update()
 		updateStartScreen();
 	else if (status == STATUS_PLAYING)
 		updatePlayingScreen();
+	else if (status == STATUS_LOSE)
+		updateLoseScreen();
 	else
-		updateEndScreen();
+		updateWinScreen();
 }
 
 void Game::updateStartScreen()
 {
 	if (graphics::getKeyState(graphics::SCANCODE_1))
 		status = STATUS_PLAYING;
+
+	if (graphics::getKeyState(graphics::SCANCODE_BACKSPACE))
+	{
+		debug_mode = true;
+		current_time = graphics::getGlobalTime();
+	}
+		
+
 }
 
 void Game::updatePlayingScreen()
@@ -42,8 +52,6 @@ void Game::updatePlayingScreen()
 	if (graphics::getKeyState(graphics::SCANCODE_SPACE) && bomb_initialized == false) {
 		bomb = new Bomb(*this, this->get_pos_x(), this->get_pos_y(), true);
 		bomb_initialized = true;
-		bomb->update();
-
 	} 
 
 	if (bomb)
@@ -59,6 +67,7 @@ void Game::updatePlayingScreen()
 		bomb_initialized = false;
 		delete bomb;
 		bomb = nullptr;
+
 	}
 	
 
@@ -69,20 +78,32 @@ void Game::updatePlayingScreen()
 				collided = true;
 				delete targets[i];
 				targets[i] = nullptr;
+				c++;
 			}
 		}
 	}
 
 	if (player->getLives() == 0)
 	{
-		status = STATUS_END;
+		status = STATUS_LOSE;
 	}
 
+	if (targets.size() == c) {
+		targets.clear();
+	}
+
+	std::cout << targets.size() << std::endl;
+
 }
 
-void Game::updateEndScreen()
+void Game::updateLoseScreen()
 {
 }
+
+void Game::updateWinScreen()
+{
+}
+
 
 void Game::drawStartScreen()
 {
@@ -91,8 +112,19 @@ void Game::drawStartScreen()
 	graphics::drawText(CANVAS_WIDTH / 2.5f, CANVAS_HEIGHT/2.5f, 15, "1.  START  THE  GAME", br);
 	graphics::drawText(CANVAS_WIDTH / 2.5f, CANVAS_HEIGHT / 2.2f, 15, "2.  CREDITS", br);
 	graphics::drawText(CANVAS_WIDTH / 2.5f, CANVAS_HEIGHT / 1.93f, 15, "3.  EXIT  THE  GAME", br);
+	
 	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
 	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
+	br.texture = std::string(ASSET_PATH) + "test.png";
+	br.outline_opacity = 0.0f;
+	graphics::drawRect(50, 50, 15, 15, br);
+
+	if (debug_mode)
+	{
+		if(graphics::getGlobalTime() - current_time< 15)
+			graphics::drawText(CANVAS_WIDTH / 2.5f, 100, 15, "Testing mode active.", br);
+	}
+		
 }
 
 void Game::drawPlayingScreen()
@@ -132,12 +164,16 @@ void Game::drawPlayingScreen()
 	}
 }
 
-void Game::drawEndScreen()
+void Game::drawLoseScreen()
 {
 	graphics::Brush br;
 	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
 	graphics::drawText(CANVAS_WIDTH / 1, CANVAS_HEIGHT /2 , 20, "GAME OVER", br);
 	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
+}
+
+void Game::drawWinScreen()
+{
 }
 
 
@@ -147,12 +183,15 @@ void Game::draw()
 		drawStartScreen();
 	else if (status == STATUS_PLAYING)
 		drawPlayingScreen();
+	else if (status == STATUS_LOSE)
+		drawLoseScreen();
 	else
-		drawEndScreen();
+		drawWinScreen();
 }
 
 void Game::init()
 {
+
 	graphics::setFont(std::string(ASSET_PATH) + "joystix.ttf");
 
 	if (bomb)
@@ -219,7 +258,7 @@ void Game::init()
 
 	}
 
-	d = { 100, 0, 0 };
+	/*d = { 100, 0, 0 };
 
 
 
@@ -244,7 +283,7 @@ void Game::init()
 		int val = d(gen) + 1;
 		Targets* target = new Targets(*this, (float)x, (float)y, val);
 		targets.push_back(target);
-	}
+	}*/
 
 	/*graphics::Brush br2;
 	

@@ -19,8 +19,6 @@ void Bomb::update()
 	{
 		returning = (game.isReturning()) ? true : false;
 	}
-
-	//returning = (game.isReturning()) ? true : false;
 	
 	if (falling)
 	{
@@ -66,7 +64,10 @@ Disk Bomb::getCollisionHull() const
 	Disk disk;
 	disk.cx = posx_bomb;
 	disk.cy = posy_bomb;
-	disk.radius = 12.0f;
+	if (game.getDebugMode())
+		disk.radius = 40.0f;
+	else
+		disk.radius = 12.0f;
 
 	return disk;
 }
