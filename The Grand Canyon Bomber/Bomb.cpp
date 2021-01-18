@@ -50,9 +50,7 @@ void Bomb::draw()
 		br.outline_opacity = 0.0f;
 		graphics::drawRect(posx_bomb, posy_bomb, 20,20, br);
 		
-		/*char info[40];
-		sprintf_s(info, "(%6.2f, %6.2f))", posx_bomb, posy_bomb);
-		graphics::drawText(80, 120, 20, info, br);*/
+		
 }
 
 void Bomb::init()
@@ -65,7 +63,7 @@ Disk Bomb::getCollisionHull() const
 	disk.cx = posx_bomb;
 	disk.cy = posy_bomb;
 	if (game.getDebugMode())
-		disk.radius = 40.0f;
+		disk.radius = 700.0f;
 	else
 		disk.radius = 12.0f;
 

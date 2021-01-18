@@ -51,13 +51,6 @@ public:
 	int get_value() const { return targetval; }
 	void set_value(Targets* target) { targetval = target->get_value(); }
 	bool getDebugMode() const { return debug_mode; }
-	/*unsigned int getWindowWidth() { return WINDOW_WIDTH; }
-	unsigned int getWindowHeight() { return WINDOW_HEIGHT; }
-	void setWindowDimensions(unsigned int w, unsigned int h) {
-		window_width = w;
-		window_height = h;	
-	}
-	float window2canvasX(float x);
-	float window2canvasY(float y);*/
+	
 
 };

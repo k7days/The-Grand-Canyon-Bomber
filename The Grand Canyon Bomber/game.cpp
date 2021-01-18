@@ -22,7 +22,7 @@ void Game::update()
 
 void Game::updateStartScreen()
 {
-	if (graphics::getKeyState(graphics::SCANCODE_1))
+	if (graphics::getKeyState(graphics::SCANCODE_RETURN))
 		status = STATUS_PLAYING;
 
 	if (graphics::getKeyState(graphics::SCANCODE_BACKSPACE))
@@ -50,6 +50,7 @@ void Game::updatePlayingScreen()
 
 	//Creating bomb
 	if (graphics::getKeyState(graphics::SCANCODE_SPACE) && bomb_initialized == false) {
+		graphics::playSound(std::string(ASSET_PATH) + "dropping.wav", 0.1, false);
 		bomb = new Bomb(*this, this->get_pos_x(), this->get_pos_y(), true);
 		bomb_initialized = true;
 	} 
@@ -74,6 +75,7 @@ void Game::updatePlayingScreen()
 	for (std::size_t i = 0; i != targets.size(); ++i) {
 		if (targets[i]) {
 			if (checkCollision(targets[i])) {
+				graphics::playSound(std::string(ASSET_PATH) + "bomb.mp3", 0.1, false);
 				player->setScore(targets[i]->get_value());
 				collided = true;
 				delete targets[i];
@@ -90,9 +92,10 @@ void Game::updatePlayingScreen()
 
 	if (targets.size() == c) {
 		targets.clear();
+		status = STATUS_WIN;
 	}
 
-	std::cout << targets.size() << std::endl;
+
 
 }
 
@@ -102,16 +105,16 @@ void Game::updateLoseScreen()
 
 void Game::updateWinScreen()
 {
+	graphics::playSound(std::string(ASSET_PATH) + "congrats.mp3", 0.5, true);
 }
 
 
 void Game::drawStartScreen()
 {
 	graphics::Brush br;
-	graphics::drawText(CANVAS_WIDTH/3, 50, 20, "THE  GRAND  CANYON  BOMBER", br);
-	graphics::drawText(CANVAS_WIDTH / 2.5f, CANVAS_HEIGHT/2.5f, 15, "1.  START  THE  GAME", br);
-	graphics::drawText(CANVAS_WIDTH / 2.5f, CANVAS_HEIGHT / 2.2f, 15, "2.  CREDITS", br);
-	graphics::drawText(CANVAS_WIDTH / 2.5f, CANVAS_HEIGHT / 1.93f, 15, "3.  EXIT  THE  GAME", br);
+	graphics::drawText(CANVAS_WIDTH/3.5f, CANVAS_HEIGHT / 3.4f, 30, "THE  GRAND  CANYON  BOMBER", br);
+	graphics::drawText(CANVAS_WIDTH / 2.8f, CANVAS_HEIGHT/2.3f, 20, "PRESS  ENTER  TO  START ", br);
+
 	
 	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
 	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
@@ -167,13 +170,21 @@ void Game::drawPlayingScreen()
 void Game::drawLoseScreen()
 {
 	graphics::Brush br;
+	std::string s = std::to_string(player->getScore());
+	graphics::drawText(CANVAS_WIDTH / 3.5, CANVAS_HEIGHT / 3.4, 30, "GAME   OVER   ", br);
+	graphics::drawText(CANVAS_WIDTH / 2.8, CANVAS_HEIGHT / 2.3, 20, "YOUR  SCORE  IS :  " + s, br);
 	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
-	graphics::drawText(CANVAS_WIDTH / 1, CANVAS_HEIGHT /2 , 20, "GAME OVER", br);
 	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
 }
 
 void Game::drawWinScreen()
 {
+	graphics::Brush br;
+	std::string s = std::to_string(player->getScore());
+	graphics::drawText(CANVAS_WIDTH / 3.5, CANVAS_HEIGHT / 3.4, 30, "CONGRATULATIONS !!! ", br);
+	graphics::drawText(CANVAS_WIDTH/ 2.8, CANVAS_HEIGHT / 2.3, 20, "YOUR  SCORE  IS :  " + s, br);
+	br.texture = std::string(ASSET_PATH) + "grandcanyon2.png";
+	graphics::drawRect(CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH, CANVAS_HEIGHT, br);
 }
 
 
@@ -185,14 +196,16 @@ void Game::draw()
 		drawPlayingScreen();
 	else if (status == STATUS_LOSE)
 		drawLoseScreen();
-	else
+	else if(status == STATUS_WIN)
 		drawWinScreen();
+	
 }
 
 void Game::init()
 {
 
 	graphics::setFont(std::string(ASSET_PATH) + "joystix.ttf");
+	graphics::playMusic(std::string(ASSET_PATH) + "plane.mp3", 0.25, true, 0);
 
 	if (bomb)
 		bomb->init();
@@ -313,15 +326,7 @@ Game::~Game()
 
 	
 }
-//float Game::window2canvasX(float x)
-//{
-//	return x * CANVAS_WIDTH / (float)window_width;
-//}
-//
-//float Game::window2canvasY(float y)
-//{
-//	return y * CANVAS_HEIGHT / (float)window_height;
-//}
+
 
 bool Game::checkCollision(Targets* t)
 {
